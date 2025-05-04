@@ -1,5 +1,6 @@
 package com.ferdi.workflow_panel_backend.security;
 
+import com.ferdi.workflow_panel_backend.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,6 +28,11 @@ public class JwtUtil {
                 .compact();
     }
 
+    public boolean isTokenValid(String token, User userDetails) {
+        final UUID systemUserId = extractSystemUserId(token);
+        return systemUserId.equals(userDetails.getSystemUserId()) && !isTokenExpired(token);
+    }
+
     public Claims extractClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignKey())
@@ -39,12 +45,12 @@ public class JwtUtil {
         return extractClaims(token).getExpiration().before(new Date());
     }
 
-    public String extractUsername(String token) {
-        return extractClaims(token).getSubject();
+    public UUID extractSystemUserId(String token) {
+        return UUID.fromString(extractClaims(token).getSubject());
     }
 
     public boolean validateToken(String token, UUID systemUserId) {
-        return (systemUserId.toString().equals(extractUsername(token)) && !isTokenExpired(token));
+        return (systemUserId.equals(extractSystemUserId(token)) && !isTokenExpired(token));
     }
 
     private Key getSignKey() {
