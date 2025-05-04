@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
 public class SecurityConfig {
@@ -17,8 +16,8 @@ public class SecurityConfig {
             try {
                 csrf
                         .disable()
-                        .authorizeHttpRequests((authz) -> authz
-                                .requestMatchers("/api/users/register","/api/users/login").permitAll()
+                        .authorizeHttpRequests((auth) -> auth
+                                .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
                                 .anyRequest().authenticated()
                         );
             } catch (Exception e) {

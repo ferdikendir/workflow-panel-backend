@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -17,17 +18,15 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
-    // Token üretme
-    public String generateToken(String username) {
+    public String generateToken(UUID systemUserId) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(systemUserId.toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 saat geçerli
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // Token'ı doğrulama
     public Claims extractClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignKey())
@@ -36,19 +35,16 @@ public class JwtUtil {
                 .getBody();
     }
 
-    // Token'ın süresi bitmiş mi kontrol etme
     public boolean isTokenExpired(String token) {
         return extractClaims(token).getExpiration().before(new Date());
     }
 
-    // Token'dan kullanıcı adı almak
     public String extractUsername(String token) {
         return extractClaims(token).getSubject();
     }
 
-    // Token'ı doğrulama
-    public boolean validateToken(String token, String username) {
-        return (username.equals(extractUsername(token)) && !isTokenExpired(token));
+    public boolean validateToken(String token, UUID systemUserId) {
+        return (systemUserId.toString().equals(extractUsername(token)) && !isTokenExpired(token));
     }
 
     private Key getSignKey() {

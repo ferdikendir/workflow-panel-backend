@@ -36,15 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String email, String password) {
-        Optional<User> user = userRepository.findByEmail(email);
-
-        if (user.isPresent() && user.get().getPassword().equals(password)) {
-            User loggedUser = user.get();
-            loggedUser.token = jwtUtil.generateToken(loggedUser.getEmail());
-            return loggedUser;
-        }
-
-        throw new RuntimeException("Invalid credentials");
+        return null;
     }
 
 
