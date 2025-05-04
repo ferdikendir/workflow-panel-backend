@@ -2,8 +2,10 @@ package com.ferdi.workflow_panel_backend.controller;
 
 import com.ferdi.workflow_panel_backend.dto.UserDto;
 import com.ferdi.workflow_panel_backend.entity.User;
+import com.ferdi.workflow_panel_backend.payload.ApiResponse;
 import com.ferdi.workflow_panel_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,13 +17,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public User register(@RequestBody UserDto userDto) {
+    public ResponseEntity<ApiResponse<User>> register(@RequestBody UserDto userDto) {
         return userService.register(userDto);
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody UserDto userDto) {
-        return userService.login(userDto.getEmail(), userDto.getPassword());
+    public ResponseEntity<ApiResponse<User>> login(@RequestBody UserDto userDto) {
+        return null;
     }
 
 }

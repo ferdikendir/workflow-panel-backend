@@ -27,7 +27,8 @@ public class User {
     private Role role;
 
     public enum Role {
-        ADMIN, EMPLOYEE
+        ADMIN,
+        EMPLOYEE
     }
 
     public String token;
