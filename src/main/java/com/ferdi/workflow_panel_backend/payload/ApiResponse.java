@@ -1,5 +1,8 @@
 package com.ferdi.workflow_panel_backend.payload;
 
+import lombok.Data;
+
+@Data
 public class ApiResponse <T>{
     private boolean success;
     private String message;
