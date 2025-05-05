@@ -1,12 +1,16 @@
 package com.ferdi.workflow_panel_backend.service.impl;
 
+import com.ferdi.workflow_panel_backend.constant.ResultMessage;
 import com.ferdi.workflow_panel_backend.dto.UserDto;
 import com.ferdi.workflow_panel_backend.entity.User;
+import com.ferdi.workflow_panel_backend.payload.ApiResponse;
+import com.ferdi.workflow_panel_backend.payload.ResponseUtil;
 import com.ferdi.workflow_panel_backend.repository.UserRepository;
 import com.ferdi.workflow_panel_backend.security.JwtUtil;
 import com.ferdi.workflow_panel_backend.service.AuthService;
 import com.ferdi.workflow_panel_backend.service.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,9 +32,9 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
-    public User register(UserDto userDto) {
+    public ResponseEntity<ApiResponse<User>> register(UserDto userDto) {
         if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
+            return ResponseUtil.successError(ResultMessage.sameEmailRegistered, null);
         }
 
         User user = new User();
@@ -39,29 +43,29 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRole(User.Role.EMPLOYEE);
 
-        return userRepository.save(user);
+        return ResponseUtil.success(ResultMessage.createdSuccess, userRepository.save(user));
     }
 
     @Override
-    public User login(String email, String password) {
+    public ResponseEntity<ApiResponse<User>> login(String email, String password) {
         return getUser(email, password, userRepository, jwtUtil);
     }
 
-    private User getUser(String email, String password, UserRepository userRepository, JwtUtil jwtUtil) {
+    private ResponseEntity<ApiResponse<User>> getUser(String email, String password, UserRepository userRepository, JwtUtil jwtUtil) {
         Optional<User> user = userRepository.findByEmail(email);
 
         if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
             User loggedUser = user.get();
             loggedUser.token = jwtUtil.generateToken(loggedUser.getSystemUserId());
             loggedUser.setRefreshToken(refreshTokenService.createRefreshToken(loggedUser.getSystemUserId()).getToken());
-            return loggedUser;
+            return ResponseUtil.success(ResultMessage.loginSuccess,loggedUser);
         }
 
-        throw new RuntimeException("Invalid credentials");
+        return ResponseUtil.successError(ResultMessage.userNotFound, null);
     }
 
     @Override
-    public User updatePassword(UserDto userDto) {
+    public ResponseEntity<ApiResponse<User>> updatePassword(UserDto userDto) {
         return null;
     }
 

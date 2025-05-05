@@ -2,9 +2,11 @@ package com.ferdi.workflow_panel_backend.service;
 
 import com.ferdi.workflow_panel_backend.dto.UserDto;
 import com.ferdi.workflow_panel_backend.entity.User;
+import com.ferdi.workflow_panel_backend.payload.ApiResponse;
+import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
-    User register(UserDto userDto);
-    User login(String email, String password);
-    User updatePassword(UserDto userDto);
+    ResponseEntity<ApiResponse<User>> register(UserDto userDto);
+    ResponseEntity<ApiResponse<User>> login(String email, String password);
+    ResponseEntity<ApiResponse<User>> updatePassword(UserDto userDto);
 }

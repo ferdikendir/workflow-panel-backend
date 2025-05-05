@@ -1,5 +1,6 @@
 package com.ferdi.workflow_panel_backend.service.impl;
 
+import com.ferdi.workflow_panel_backend.constant.ResultMessage;
 import com.ferdi.workflow_panel_backend.dto.UserDto;
 import com.ferdi.workflow_panel_backend.entity.User;
 import com.ferdi.workflow_panel_backend.payload.ApiResponse;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User registerUser = userRepository.save(user);
-        return ResponseUtil.success("", registerUser);
+        return ResponseUtil.success(ResultMessage.createdSuccess, registerUser);
     }
 
     @Override

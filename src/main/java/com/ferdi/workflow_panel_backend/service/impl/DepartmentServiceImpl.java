@@ -1,5 +1,6 @@
 package com.ferdi.workflow_panel_backend.service.impl;
 
+import com.ferdi.workflow_panel_backend.constant.ResultMessage;
 import com.ferdi.workflow_panel_backend.dto.DepartmentDto;
 import com.ferdi.workflow_panel_backend.entity.Department;
 import com.ferdi.workflow_panel_backend.payload.ApiResponse;
@@ -27,7 +28,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public ResponseEntity<ApiResponse<List<Department>>> getAllDepartments() {
         List<Department> departments = departmentRepository.findAll();
-        return ResponseUtil.success("", departments);
+        return ResponseUtil.success(ResultMessage.none, departments);
     }
 
     @Override
@@ -36,6 +37,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         dep.setName(department.getName());
 
         Department addedDepartment = departmentRepository.save(dep);
-        return ResponseUtil.success("Created", addedDepartment);
+        return ResponseUtil.success(ResultMessage.createdSuccess, addedDepartment);
     }
 }
