@@ -7,20 +7,26 @@ public class ResultMessage {
             2001
     );
 
+    public final static  ResultMessageBase  loginSuccess = new ResultMessageBase(
+            "Login Success",
+            2002
+    );
+
     public final static  ResultMessageBase  sameEmailRegistered = new ResultMessageBase(
             "Same email address already registered.",
             1001
     );
 
-    public final static  ResultMessageBase  userNotFound = new ResultMessageBase(
-            "User not found",
+    public final static  ResultMessageBase  sameDepartmentNameRegistered = new ResultMessageBase(
+            "Same department name already registered.",
             1002
     );
 
-    public final static  ResultMessageBase  loginSuccess = new ResultMessageBase(
-            "Login Success",
-            1003
+    public final static  ResultMessageBase  userNotFound = new ResultMessageBase(
+            "User not found",
+            3001
     );
+
 
     public static final ResultMessageBase none = new ResultMessageBase(
             null,

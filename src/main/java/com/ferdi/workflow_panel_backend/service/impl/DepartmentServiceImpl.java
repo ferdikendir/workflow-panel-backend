@@ -33,6 +33,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public ResponseEntity<ApiResponse<Department>> createDepartment(DepartmentDto department) {
+
+        if (departmentRepository.findByName(department.getName()).isPresent()) {
+            return ResponseUtil.successError(ResultMessage.sameDepartmentNameRegistered, null);
+        }
+
         Department dep = new Department();
         dep.setName(department.getName());
 
