@@ -12,12 +12,12 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Departmant {
+public class Department {
 
     @Id
     @GeneratedValue
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
-    private UUID departmantId;
+    private UUID departmentId;
 
     private String name;
 }
