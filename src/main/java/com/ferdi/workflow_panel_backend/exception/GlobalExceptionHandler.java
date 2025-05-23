@@ -18,6 +18,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleOtherErrors(Exception ex) {
-        return ResponseUtil.error("Beklenmeyen bir hata oluştu.", HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseUtil.error(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "refreshToken")
+@Table(name = "RefreshToken")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

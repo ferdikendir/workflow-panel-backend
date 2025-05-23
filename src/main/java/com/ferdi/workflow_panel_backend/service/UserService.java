@@ -5,10 +5,14 @@ import com.ferdi.workflow_panel_backend.entity.User;
 import com.ferdi.workflow_panel_backend.payload.ApiResponse;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface UserService {
-    ResponseEntity<ApiResponse<User>> register(UserDto userDto);
-    Optional<User> get(UUID systemUserId);
+    ResponseEntity<ApiResponse<UserDto>> create(UserDto userDto);
+    ResponseEntity<ApiResponse<List<UserDto>>> list();
+    ResponseEntity<ApiResponse<UserDto>> get(UserDto userDto);
+    ResponseEntity<ApiResponse<UserDto>> update(UserDto userDto);
+    ResponseEntity<ApiResponse<UserDto>> updateDepartment(UserDto userDtoFromRequest);
 }

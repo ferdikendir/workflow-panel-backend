@@ -1,5 +1,6 @@
 package com.ferdi.workflow_panel_backend.controller;
 
+import com.ferdi.workflow_panel_backend.dto.AuthDto;
 import com.ferdi.workflow_panel_backend.dto.UserDto;
 import com.ferdi.workflow_panel_backend.entity.User;
 import com.ferdi.workflow_panel_backend.payload.ApiResponse;
@@ -17,12 +18,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<User>> login(@RequestBody UserDto userDto) {
+    public ResponseEntity<ApiResponse<AuthDto>> login(@RequestBody UserDto userDto) {
            return authService.login(userDto.getEmail(), userDto.getPassword());
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<User>> register(@RequestBody UserDto userDto) {
+    public ResponseEntity<ApiResponse<UserDto>> register(@RequestBody UserDto userDto) {
         return authService.register(userDto);
     }
 

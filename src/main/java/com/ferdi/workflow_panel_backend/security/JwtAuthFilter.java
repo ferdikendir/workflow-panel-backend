@@ -3,6 +3,7 @@ package com.ferdi.workflow_panel_backend.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ferdi.workflow_panel_backend.entity.User;
 import com.ferdi.workflow_panel_backend.constant.PublicApiList;
+import com.ferdi.workflow_panel_backend.repository.UserRepository;
 import com.ferdi.workflow_panel_backend.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,11 +22,11 @@ import java.util.*;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
-    public JwtAuthFilter(JwtUtil jwtUtil, UserService userService) {
+    public JwtAuthFilter(JwtUtil jwtUtil, UserRepository userRepository) {
         this.jwtUtil = jwtUtil;
-        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -53,8 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         systemUserId = jwtUtil.extractSystemUserId(jwt);
 
         if (systemUserId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            Optional<User> optionalUser = userService.get(systemUserId);
-
+            Optional<User> optionalUser = userRepository.findBySystemUserId(systemUserId);
 
             if (optionalUser.isEmpty()) {
                 sendUnauthorizedResponse(response, "Kullanıcı bulunamadı.");

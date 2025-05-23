@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
@@ -16,14 +18,24 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse<User>> register(@RequestBody UserDto userDto) {
-        return userService.register(userDto);
+    @PostMapping("/list")
+    public ResponseEntity<ApiResponse<List<UserDto>>> list() {
+        return  userService.list();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponse<User>> login(@RequestBody UserDto userDto) {
-        return null;
+    @PostMapping("/create")
+    public ResponseEntity<ApiResponse<UserDto>> create(@RequestBody UserDto userDto) {
+        return  userService.create(userDto);
+    }
+
+    @PostMapping("/get")
+    public ResponseEntity<ApiResponse<UserDto>> getUser(@RequestBody UserDto userDto) {
+        return  userService.get(userDto);
+    }
+
+    @PostMapping("/updateDepartment")
+    public ResponseEntity<ApiResponse<UserDto>> updateDepartment(@RequestBody UserDto userDto) {
+        return userService.updateDepartment(userDto);
     }
 
 }

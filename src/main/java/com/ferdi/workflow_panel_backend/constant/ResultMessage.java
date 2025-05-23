@@ -12,6 +12,16 @@ public class ResultMessage {
             2002
     );
 
+    public final static  ResultMessageBase  deleteSuccess = new ResultMessageBase(
+            "Delete success",
+            2003
+    );
+
+    public final static  ResultMessageBase  updateSuccess = new ResultMessageBase(
+      "Update success",
+      2004
+    );
+
     public final static  ResultMessageBase  sameEmailRegistered = new ResultMessageBase(
             "Same email address already registered.",
             1001
@@ -25,6 +35,16 @@ public class ResultMessage {
     public final static  ResultMessageBase  userNotFound = new ResultMessageBase(
             "User not found",
             3001
+    );
+
+    public final static  ResultMessageBase  departmentNotFound = new ResultMessageBase(
+            "Department not found",
+            3002
+    );
+
+    public final static  ResultMessageBase  departmentContainsUsers = new ResultMessageBase(
+            "The department contains users",
+            3003
     );
 
 
